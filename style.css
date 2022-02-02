@@ -532,6 +532,9 @@ footer {
 
 
 @media screen and (max-width: 500px) {
+  .hero-content{
+    padding: 5%;
+  }
   .hero-headline {
     width: 90%;
     padding: 0%;
