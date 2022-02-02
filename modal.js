@@ -24,7 +24,7 @@ function launchModal() {
 // Formulaire
 
 //prénom
-const first ="",
+/*const first ="",
 
 const last = "",
 
@@ -35,4 +35,4 @@ function textControl(text) {
   else {
     return invalid
   }
-}
+}*/
