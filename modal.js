@@ -21,3 +21,18 @@ function launchModal() {
 }
 
 
+// Formulaire
+
+//prénom
+const first ="",
+
+const last = "",
+
+function textControl(text) {
+  if (text>=1){
+    return valid
+  }
+  else {
+    return invalid
+  }
+}
