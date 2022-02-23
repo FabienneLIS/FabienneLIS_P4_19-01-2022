@@ -56,8 +56,8 @@
       </div>
 
       <div class="bground">
-        <div class="content">
-          <span class="close"></span>
+        <div class="content contentClose">
+            <span class="close" id="input-close" href="#myTopnav" ></span>
           <div class="modal-body">
             <form
               name="reserve"
@@ -67,14 +67,16 @@
             >
               <div
                 class="formData">
-                <label>Prénom</label><br>
+                <label>Prénom</label>
                 <input
-                  class="text-control valid invalid"
+                  class="text-control"
                   type="text"
-                  id="first"
-                  name="first"
-                  minlength="2"
-                /><br>
+                  id="firstname"
+                  name="firstname"
+                  pattern="[a-zA-Zéèàôîê]*"
+                  required minlength="2"
+                />
+                <p class="error-text" id="input-firstname-error"></p>
               </div>
               <div
                 class="formData">
@@ -82,9 +84,12 @@
                 <input
                   class="text-control"
                   type="text"
-                  id="last"
-                  name="last"
-                /><br>
+                  id="lastname"
+                  name="lastname"
+                  required pattern="[a-zA-Zéèàôîê]*"
+                  required minlength="2"
+                />
+                <p class="error-text" id="input-lastname-error"></p>
               </div>
               <div
                 class="formData">
@@ -94,7 +99,9 @@
                   type="email"
                   id="email"
                   name="email"
-                /><br>
+                  required pattern="(.*)@(.*)"
+                />
+                <p class="error-text" id="input-email-error"></p>
               </div>
               <div
                 class="formData">
@@ -104,12 +111,15 @@
                   type="date"
                   id="birthdate"
                   name="birthdate"
-                /><br>
+                  required
+                />
+                <p class="error-text" id="input-birthdate-error"></p>
               </div>
               <div
                 class="formData">
-                <label>À combien de tournois GameOn avez-vous déjà participé ?</label><br>
-                <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99">
+                <label>À combien de tournois GameOn avez-vous déjà participé ?</label>
+                <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99"required/>
+                <p class="error-text" id="input-quantity-error"></p>
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <div
@@ -181,6 +191,7 @@
                   Portland</label
                 >
               </div>
+              <p class="error-text" id="input-location-error"></p>
 
               <div
                 class="formData">
@@ -194,24 +205,27 @@
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
-                <br>
                 <input class="checkbox-input" type="checkbox" id="checkbox2" />
                 <label class="checkbox2-label" for="checkbox2">
                   <span class="checkbox-icon"></span>
                   Je Je souhaite être prévenu des prochains évènements.
                 </label>
-                <br>
               </div>
+              <p class="error-text" id="input-checkbox-error"></p>
               <input
                 class="btn-submit"
                 type="submit"
-                class="button"
+                id="buttonsubmit"
+                class="buttonsubmit"
                 value="C'est parti"
+                required
               />
+              <p class="error-text" id="input-submit-error"></p>
             </form>
           </div>
         </div>
       </div>
+      <div class="validate" id="input-validate-check"> <p> votre inscription est validée</p></div>
     </main>
     
     <footer>
