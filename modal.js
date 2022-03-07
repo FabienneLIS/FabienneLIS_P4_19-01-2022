@@ -55,10 +55,12 @@ const inputCheckbox1Error = document.querySelector("#input-checkbox-error");
 //validation
 const submitButton = document.querySelector("#buttonsubmit");
 const inputSubmitError = document.querySelector("#input-submit-error");
-const inputValidate = document.querySelector("#input-validate-check");
+//message validation
+const submitmessage= document.querySelector("#validate-check");
 //close
-const submitClose = document.querySelector("#input-close")
-const ContentClose = document.querySelector(".contentClose")
+const submitClose = document.querySelector("#input-close");
+//close message validation
+/*const submitCloseMessage = document.querySelector("#input-close-form");*/
 
 // launch modal event
 //prénom
@@ -70,7 +72,7 @@ inputEmail.addEventListener("change", validateEmail);
 //date de naissance
 inputBirthdate.addEventListener("change", validateBirthdate);
 //nombre de tournoi
-inputQuantity.addEventListener("change", validateQuantity);
+inputQuantity.addEventListener("blur", validateQuantity);
 //choix du tournoi
 inputButtonSelector1.addEventListener("click", validateButtonSelector);
 inputButtonSelector2.addEventListener("click", validateButtonSelector);
@@ -81,32 +83,44 @@ inputButtonSelector6.addEventListener("click", validateButtonSelector);
 //condition
 inputCheckbox1.addEventListener("click", validateCheckbox1);
 //validation
-submitButton.addEventListener("click", validateSubmitButton);
+/*submitButton.addEventListener("submit", validateSubmitButton);*/
 //close
 submitClose.addEventListener("click", validateClose);
+//close message validation
+/*submitCloseMessage.addEventListener("click", validateCloseMessage);*/
+
 
 // launch modal form
+
+function hasOnlyLetters(string) {
+  console.log({ string });
+  const regexToMatch = new RegExp('[a-zA-Zéèàôîê]+', 'g');
+
+  return regexToMatch.test(string);
+}
+
 //prénom
 function validateFirstname() {
-  if(inputFirstname.value.length > 1) {
+  console.log(hasOnlyLetters(inputFirstname.value))
+  if(inputFirstname.value.length > 1 && inputFirstname.value.length < 250 && !parseInt(inputFirstname.value)) {
     inputFirstname.classList.remove("error-input");
     inputFirstnameError.innerText = "";
     return true; 
   } else {
     inputFirstname.classList.add("error-input");
-    inputFirstnameError.innerText = "Le champ doit avoir 2 caractères minimum.";
+    inputFirstnameError.innerText = "Le champ doit avoir 2 lettres minimum.";
     return false;
   }
 }
 //nom
 function validateLastname() {
-  if(inputLastname.value.length > 1) {
+  if(inputLastname.value.length > 1 && inputLastname.value.length < 250 && !parseInt(inputLastname.value)) {
       inputLastname.classList.remove("error-input");
       inputLastnameError.innerText = "";
     return true;
     } else {
       inputLastname.classList.add("error-input");
-      inputLastnameError.innerText = "Le champ doit avoir 2 caractères minimum.";
+      inputLastnameError.innerText = "Le champ doit avoir 2 lettres minimum.";
     return false;
   }
 }
@@ -138,41 +152,29 @@ function validateBirthdate() {
 
 //nombre de participation
 function validateQuantity() {
-  if (inputQuantity.value.length != ""){
-      inputQuantity.classList.remove("error-input");
-      inputQuantityError.innerText = "";
-      return true;
-  } else {
-      inputQuantity.classList.add("error-input");
-      inputQuantityError.innerText = "Il faut rentrer un nombre.";
+  if (!parseInt(inputQuantity.value) || parseInt(inputQuantity.value) < 0){
+    inputQuantity.classList.add("error-input");
+    inputQuantityError.innerText = "Veuillez rentrer un nombre positif.";
     return false;
+  } else {
+    inputQuantity.classList.remove("error-input");
+    inputQuantityError.innerText = "";
+    return true;
   }
 }
 
 //choix du tournoi
 function validateButtonSelector() {
-  if (inputButtonSelector1.checked) { 
-    console.log("Vous avez valider un choix");
-    console.log(inputButtonSelector1.value);
+  const radioInputsList = document.querySelectorAll(".radio-input");
+  const radioInputsArray = Array.from(radioInputsList);
+  const radioInputChecked = radioInputsArray.find((radio) => radio.checked);
+
+  if (radioInputChecked) {
+    console.log("bonne réponse");
     return true;
-  } else if (inputButtonSelector2.checked) {
-    console.log("Vous avez valider un choix");
-    console.log(inputButtonSelector2.value);
-  } else if (inputButtonSelector3.checked) {
-    console.log("Vous avez valider un choix");
-    console.log(inputButtonSelector3.value);
-  } else if (inputButtonSelector4.checked) {
-    console.log("Vous avez valider un choix");
-    console.log(inputButtonSelector4.value);
-  } else if (inputButtonSelector5.checked) {
-    console.log("Vous avez valider un choix");
-    console.log(inputButtonSelector5.value);
-  } else if (inputButtonSelector6.checked) {
-    console.log("Vous avez valider un choix");
-    console.log(inputButtonSelector6.value); 
   } else {
-    inputButtonSelectorError.innerText = "Il faut valider un choix.";
-    console.log("Il faut valider un choix.");
+    radioInputChecked.innerText = "Vous devez sélectionner une ville.";
+    console.log("mauvaise réponse");
     return false;
   }
 }
@@ -190,34 +192,40 @@ function validateCheckbox1() {
   }
 }
 
+
+  
 //validation du formulaire
-function validateSubmitButton(e) {
+const form = document.querySelector("#form");
+form.addEventListener("submit", submitForm);
+
+function submitForm(e) {
+  e.preventDefault();
+
   if( validateFirstname() 
-      && validateLastname() 
-      && validateEmail() 
-      && validateBirthdate() 
-      && validateQuantity() 
-      && validateButtonSelector() 
-      && validateCheckbox1()
-    ) {
-      inputValidate.innerText = "votre inscription est validée !";
-      /*window.history.back();*/
-      alert("votre inscription est validée !");
-      return true;
+    && validateLastname() 
+    && validateEmail() 
+    && validateBirthdate() 
+    && validateQuantity() 
+    && validateButtonSelector() 
+    && validateCheckbox1() ) {
+      inputSubmitError.innerText = "";
+      submitmessage.style.display = "block";
+      modalbg.style.display = "none";
+      console.log("valoui")
   } else {
-      inputSubmitError.innerText = "Il y a des champs non validé!";
-      console.log("Il reste des champs à valider");
-      e.preventDefault();
-      return false;
+    console.log("valnon")
+    inputSubmitError.innerText = "Il reste des champs à valider !";
   }
 }
 
-//close
-/*function validateClose() {
-  if (){
-    ContentClose.classList.add;
-  } else {
-    return false;
-  }
-}*/
+//close modal
+function validateClose(e){
+  if (launchModal === null)
+    return e.preventDefault;
+    modalbg.style.display = "none";
+}
 
+//close message validation
+/*function CloseMessage(){
+    submitmessage.style.display = "none";
+}*/

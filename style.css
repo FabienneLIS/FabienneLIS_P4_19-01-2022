@@ -211,10 +211,6 @@ main {
   padding-top: 10px;
 }
 
-.contentClose {
-  animation: close;
-  animation-duration: var(--modal-duration);
-}
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -289,20 +285,48 @@ input {
   font-size: 0.6em;
   margin-top: 0.2em;
 }
-.validate {
-  color: #279e7a;
-  padding: 30px;
-  border: 2px solid #279e7a;
+
+.formvalidate{
+  display: none;
   position: fixed;
-  z-index: 2;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(255, 255, 255, 1);
+} 
+.validate {
+  margin: 5% auto;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  animation-name: modalopen;
+  animation-duration: var 10s;
+  background: #232323;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  padding-top: 10px;
 }
-@keyframes close {
-  from {
-    transform: scale(0);
-  }
-  to {
-    transform: scale(1);
-  }
+
+
+
+.validate-text {
+margin: 20%;
+font-size: 1.4em;
+text-align: center;
+}
+
+.validate-leave {
+margin: 20%;  
+font-size: 1em;
+padding: 0.5em;
+border: 2px solid gray ;
+border-radius: 10px;
+cursor: pointer;
 }
 /* My css */
 
@@ -343,14 +367,19 @@ input {
   transition: 0.3s;
   opacity: 0;
 }
-.checkbox-input {
+.checkbox-input,
+.radio-input {
   display: none;
 }
 .checkbox-input:checked + .checkbox-label .checkbox-icon::after,
-.checkbox-input:checked + .checkbox2-label .checkbox-icon::after {
+.checkbox-input:checked + .checkbox2-label .checkbox-icon::after,
+.radio-input:checked + .checkbox-label .checkbox-icon::after,
+.radio-input:checked + .checkbox2-label .checkbox-icon::after
+{
   opacity: 1;
 }
-.checkbox-input:checked + .checkbox2-label .checkbox-icon {
+.checkbox-input:checked + .checkbox2-label .checkbox-icon,
+.radio-input:checked + .checkbox2-label .checkbox-icon  {
   background: #279e7a;
 }
 .checkbox2-label .checkbox-icon {
@@ -374,6 +403,8 @@ input {
 
 .close {
   position: absolute;
+  border: 2px solid black;
+  padding: 15px;
   right: 15px;
   top: 15px;
   width: 32px;
@@ -497,6 +528,7 @@ input {
   position: relative;
   text-align: left;
   min-width: 424px;
+  max-height: 735px;
 }
 .hero-content::after {
   content: "";
@@ -532,6 +564,7 @@ input {
 }
 .hero-img {
   grid-column: span 8;
+  max-height: 735px;
 }
 .hero-img img {
   width: 100%;
@@ -578,6 +611,10 @@ footer {
   .hero-text {
     width: unset;
     font-size: 1.3rem;
+  }
+
+  .hero-img {
+    max-height: 70%;
   }
   .hero-img img {
     border-radius: 10px;
