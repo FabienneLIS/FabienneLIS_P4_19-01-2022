@@ -211,6 +211,26 @@ main {
   padding-top: 10px;
 }
 
+@keyframes modalopen {
+  from {
+    opacity: 0;
+    transform: translateY(-150px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+/*css fabienne*/
+@keyframes close {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+/*css fabienne*/
+
 .modal-body {
   padding: 15px 8%;
   margin: 15px auto;
@@ -254,12 +274,62 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
-/* 
-input[data-error]::after {
-    content: attr(data-error);
-    font-size: 0.4em;
-    color: red;
-} */
+
+/* My css */
+.error-input {
+  border: 2px solid #e54858;
+}
+
+.error-text {
+  color: #e54858;
+  font-size: 0.6em;
+  margin-top: 0.2em;
+}
+
+.formvalidate{
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  background-color: rgba(255, 255, 255, 1);
+} 
+.validate {
+  margin: 5% auto;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  animation-name: modalopen;
+  animation-duration: var 10s;
+  background: #232323;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  color: #fff;
+  padding-top: 10px;
+}
+
+
+
+.validate-text {
+margin: 20%;
+font-size: 1.4em;
+text-align: center;
+}
+
+.validate-leave {
+margin: 20%;  
+font-size: 1em;
+padding: 0.5em;
+border: 2px solid gray ;
+border-radius: 10px;
+cursor: pointer;
+}
+/* My css */
+
 .checkbox-label,
 .checkbox2-label {
   position: relative;
@@ -297,14 +367,19 @@ input[data-error]::after {
   transition: 0.3s;
   opacity: 0;
 }
-.checkbox-input {
+.checkbox-input,
+.radio-input {
   display: none;
 }
 .checkbox-input:checked + .checkbox-label .checkbox-icon::after,
-.checkbox-input:checked + .checkbox2-label .checkbox-icon::after {
+.checkbox-input:checked + .checkbox2-label .checkbox-icon::after,
+.radio-input:checked + .checkbox-label .checkbox-icon::after,
+.radio-input:checked + .checkbox2-label .checkbox-icon::after
+{
   opacity: 1;
 }
-.checkbox-input:checked + .checkbox2-label .checkbox-icon {
+.checkbox-input:checked + .checkbox2-label .checkbox-icon,
+.radio-input:checked + .checkbox2-label .checkbox-icon  {
   background: #279e7a;
 }
 .checkbox2-label .checkbox-icon {
@@ -324,8 +399,12 @@ input[data-error]::after {
   left: 21%;
   top: 19%;
 }
+
+
 .close {
   position: absolute;
+  border: 2px solid black;
+  padding: 15px;
   right: 15px;
   top: 15px;
   width: 32px;
@@ -449,6 +528,7 @@ input[data-error]::after {
   position: relative;
   text-align: left;
   min-width: 424px;
+  max-height: 735px;
 }
 .hero-content::after {
   content: "";
@@ -484,6 +564,7 @@ input[data-error]::after {
 }
 .hero-img {
   grid-column: span 8;
+  max-height: 735px;
 }
 .hero-img img {
   width: 100%;
@@ -531,6 +612,10 @@ footer {
     width: unset;
     font-size: 1.3rem;
   }
+
+  .hero-img {
+    max-height: 70%;
+  }
   .hero-img img {
     border-radius: 10px;
     margin-top: 40px;
@@ -563,15 +648,6 @@ footer {
     padding: auto;
     flex-wrap: wrap;
     font-size: 1.1rem;
-  }
-}
-@keyframes modalopen {
-  from {
-    opacity: 0;
-    transform: translateY(-150px);
-  }
-  to {
-    opacity: 1;
   }
 }
 
