@@ -15,6 +15,7 @@
   <body>
 
     <div class="topnav" id="myTopnav">
+      <a href="index.html"></a>
       <div class="header-logo">
         <img class="logo-img" alt="logo" src="Logo.png"/>
       </div>
@@ -111,7 +112,7 @@
               <div
                 class="formData">
                 <label>À combien de tournois GameOn avez-vous déjà participé ?</label>
-                <input type="number" class="text-control" id="quantity" name="quantity" min="0" max="99"/>
+                <input type="number" class="text-control" id="quantity" name="quantity"/>
                 <p class="error-text" id="input-quantity-error"></p>
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
@@ -184,7 +185,7 @@
                   Portland</label
                 >
               </div>
-              <p class="error-text" id="input-location-error"></p>
+              <p class="error-text" id="input-city-error"></p>
 
               <div
                 class="formData">
@@ -194,7 +195,7 @@
                   id="checkbox1"
                   checked
                 />
-                <label class="checkbox2-label" for="checkbox1" required>
+                <label class="checkbox2-label" for="checkbox1">
                   <span class="checkbox-icon"></span>
                   J'ai lu et accepté les conditions d'utilisation.
                 </label>
@@ -221,7 +222,9 @@
       <div class="formvalidate" id="validate-check">
         <div class="validate"> 
           <div class="validate-text"> Votre inscription est validée !</div>
-          <div class="validate-leave" id="input-close-form" href="#myTopnav">Retour à la page d'accueil</div>
+          <span class="validate-leave" id="input-close-form" href="#myTopnav">
+            <p class="validate-leave-text">Fermer</p>
+          </span>
         </div>
       </div>
     </main>
