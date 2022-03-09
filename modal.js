@@ -42,13 +42,13 @@ const inputBirthdateError = document.querySelector("#input-birthdate-error")
 const inputQuantity = document.querySelector("#quantity");
 const inputQuantityError = document.querySelector("#input-quantity-error");
 //choix du tournoi
-const inputButtonSelector1 = document.querySelector("#location1");
+/*const inputButtonSelector1 = document.querySelector("#location1");
 const inputButtonSelector2 = document.querySelector("#location2");
 const inputButtonSelector3 = document.querySelector("#location3");
 const inputButtonSelector4 = document.querySelector("#location4");
 const inputButtonSelector5 = document.querySelector("#location5");
-const inputButtonSelector6 = document.querySelector("#location6");
-const inputButtonSelectorError = document.querySelector("#input-location-error");
+const inputButtonSelector6 = document.querySelector("#location6");*/
+const inputCityError = document.querySelector("#input-city-error");
 //condition
 const inputCheckbox1= document.querySelector("#checkbox1");
 const inputCheckbox1Error = document.querySelector("#input-checkbox-error");
@@ -60,7 +60,7 @@ const submitmessage= document.querySelector("#validate-check");
 //close
 const submitClose = document.querySelector("#input-close");
 //close message validation
-/*const submitCloseMessage = document.querySelector("#input-close-form");*/
+const submitCloseMessage = document.querySelector("#input-close-form");
 
 // launch modal event
 //prénom
@@ -72,37 +72,32 @@ inputEmail.addEventListener("change", validateEmail);
 //date de naissance
 inputBirthdate.addEventListener("change", validateBirthdate);
 //nombre de tournoi
-inputQuantity.addEventListener("blur", validateQuantity);
-//choix du tournoi
-inputButtonSelector1.addEventListener("click", validateButtonSelector);
-inputButtonSelector2.addEventListener("click", validateButtonSelector);
-inputButtonSelector3.addEventListener("click", validateButtonSelector);
-inputButtonSelector4.addEventListener("click", validateButtonSelector);
-inputButtonSelector5.addEventListener("click", validateButtonSelector);
-inputButtonSelector6.addEventListener("click", validateButtonSelector);
+inputQuantity.addEventListener("blur", validateParticipationsNumber);
 //condition
 inputCheckbox1.addEventListener("click", validateCheckbox1);
+//choix du tournoi
 //validation
 /*submitButton.addEventListener("submit", validateSubmitButton);*/
 //close
 submitClose.addEventListener("click", validateClose);
 //close message validation
-/*submitCloseMessage.addEventListener("click", validateCloseMessage);*/
+submitCloseMessage.addEventListener("click", validateCloseMessage);
 
 
 // launch modal form
 
 function hasOnlyLetters(string) {
-  console.log({ string });
   const regexToMatch = new RegExp('[a-zA-Zéèàôîê]+', 'g');
-
   return regexToMatch.test(string);
+}
+
+function isPositiveNumber(value) {
+  return /^[0-9]+$/.test(value);
 }
 
 //prénom
 function validateFirstname() {
-  console.log(hasOnlyLetters(inputFirstname.value))
-  if(inputFirstname.value.length > 1 && inputFirstname.value.length < 250 && !parseInt(inputFirstname.value)) {
+  if(inputFirstname.value.length > 1 && inputFirstname.value.length < 250 && hasOnlyLetters(inputFirstname.value)) {
     inputFirstname.classList.remove("error-input");
     inputFirstnameError.innerText = "";
     return true; 
@@ -114,7 +109,7 @@ function validateFirstname() {
 }
 //nom
 function validateLastname() {
-  if(inputLastname.value.length > 1 && inputLastname.value.length < 250 && !parseInt(inputLastname.value)) {
+  if(inputLastname.value.length > 1 && inputLastname.value.length < 250 && hasOnlyLetters(inputLastname.value)) {
       inputLastname.classList.remove("error-input");
       inputLastnameError.innerText = "";
     return true;
@@ -138,7 +133,8 @@ function validateEmail() {
 }
 //date de naissance
 function validateBirthdate() {
-  if (inputBirthdate.checkValidity()) {
+  if (/^(([0-9]{4})-[0-9]{2})-([0-9]{2})+$/.test(inputBirthdate.value))
+     {
       inputBirthdate.classList.remove("error-input");
       inputBirthdateError.innerText = "";
     return true;
@@ -151,10 +147,10 @@ function validateBirthdate() {
 }
 
 //nombre de participation
-function validateQuantity() {
-  if (!parseInt(inputQuantity.value) || parseInt(inputQuantity.value) < 0){
+function validateParticipationsNumber() {
+  if (!isPositiveNumber(inputQuantity.value) || inputQuantity.value.valueOf() > 99) {
     inputQuantity.classList.add("error-input");
-    inputQuantityError.innerText = "Veuillez rentrer un nombre positif.";
+    inputQuantityError.innerText = "Veuillez rentrer un nombre positif et inférieur à 100.";
     return false;
   } else {
     inputQuantity.classList.remove("error-input");
@@ -164,17 +160,16 @@ function validateQuantity() {
 }
 
 //choix du tournoi
-function validateButtonSelector() {
+function validateCitySelector() {
   const radioInputsList = document.querySelectorAll(".radio-input");
   const radioInputsArray = Array.from(radioInputsList);
   const radioInputChecked = radioInputsArray.find((radio) => radio.checked);
 
   if (radioInputChecked) {
-    console.log("bonne réponse");
+    inputCityError.innerText = "";
     return true;
   } else {
-    radioInputChecked.innerText = "Vous devez sélectionner une ville.";
-    console.log("mauvaise réponse");
+    inputCityError.innerText = "Vous devez sélectionner une ville.";
     return false;
   }
 }
@@ -183,11 +178,9 @@ function validateButtonSelector() {
 function validateCheckbox1() {
   if (inputCheckbox1.checked){
     inputCheckbox1Error.innerText = "";
-    console.log(inputCheckbox1.value);
     return true;
   } else {
     inputCheckbox1Error.innerText = "Il faut valider les conditions d'utilisation.";
-    console.log(inputCheckbox1.value);
     return false;
   }
 }
@@ -205,15 +198,13 @@ function submitForm(e) {
     && validateLastname() 
     && validateEmail() 
     && validateBirthdate() 
-    && validateQuantity() 
-    && validateButtonSelector() 
+    && validateParticipationsNumber() 
+    && validateCitySelector() 
     && validateCheckbox1() ) {
       inputSubmitError.innerText = "";
       submitmessage.style.display = "block";
       modalbg.style.display = "none";
-      console.log("valoui")
   } else {
-    console.log("valnon")
     inputSubmitError.innerText = "Il reste des champs à valider !";
   }
 }
@@ -226,6 +217,7 @@ function validateClose(e){
 }
 
 //close message validation
-/*function CloseMessage(){
-    submitmessage.style.display = "none";
-}*/
+function validateCloseMessage(e) {
+  e.preventDefault;
+    window.location.href="index.html";
+}
