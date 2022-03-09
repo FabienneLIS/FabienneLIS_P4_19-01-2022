@@ -23,7 +23,7 @@ function launchModal() {
 
 // Formulaire
 
-// DOM Elements
+// DOM Elements(on récupère le Dom qui correspond au fichier sur lequel on veut travailler)
 // page principal
  const returnPage = document.querySelector("#myTopnav");
 //prénom
@@ -42,12 +42,6 @@ const inputBirthdateError = document.querySelector("#input-birthdate-error")
 const inputQuantity = document.querySelector("#quantity");
 const inputQuantityError = document.querySelector("#input-quantity-error");
 //choix du tournoi
-/*const inputButtonSelector1 = document.querySelector("#location1");
-const inputButtonSelector2 = document.querySelector("#location2");
-const inputButtonSelector3 = document.querySelector("#location3");
-const inputButtonSelector4 = document.querySelector("#location4");
-const inputButtonSelector5 = document.querySelector("#location5");
-const inputButtonSelector6 = document.querySelector("#location6");*/
 const inputCityError = document.querySelector("#input-city-error");
 //condition
 const inputCheckbox1= document.querySelector("#checkbox1");
@@ -62,7 +56,7 @@ const submitClose = document.querySelector("#input-close");
 //close message validation
 const submitCloseMessage = document.querySelector("#input-close-form");
 
-// launch modal event
+// launch modal event (on écoute le DOM à travers une évenement paticulier)
 //prénom
 inputFirstname.addEventListener("change", validateFirstname);
 //nom
@@ -75,17 +69,15 @@ inputBirthdate.addEventListener("change", validateBirthdate);
 inputQuantity.addEventListener("blur", validateParticipationsNumber);
 //condition
 inputCheckbox1.addEventListener("click", validateCheckbox1);
-//choix du tournoi
-//validation
-/*submitButton.addEventListener("submit", validateSubmitButton);*/
 //close
 submitClose.addEventListener("click", validateClose);
 //close message validation
 submitCloseMessage.addEventListener("click", validateCloseMessage);
 
 
-// launch modal form
+// launch modal form (on applique des restirictions sur les champs des formulaires)
 
+//Fonction qui autorise que des lettres ou des chiffres
 function hasOnlyLetters(string) {
   const regexToMatch = new RegExp('[a-zA-Zéèàôîê]+', 'g');
   return regexToMatch.test(string);
@@ -159,10 +151,12 @@ function validateParticipationsNumber() {
   }
 }
 
-//choix du tournoi
+//choix du tournoi (la fonction valide lorsque un bouton est sélectionner)
 function validateCitySelector() {
   const radioInputsList = document.querySelectorAll(".radio-input");
+  /* On récupère les DOM de tout les boutons radio*/
   const radioInputsArray = Array.from(radioInputsList);
+  /* On tranforme la liste en tableau*/
   const radioInputChecked = radioInputsArray.find((radio) => radio.checked);
 
   if (radioInputChecked) {
@@ -189,8 +183,10 @@ function validateCheckbox1() {
   
 //validation du formulaire
 const form = document.querySelector("#form");
+/*on récupère le DOM du formulaire)*/
 form.addEventListener("submit", submitForm);
-
+/* on écoute le formulaire*/
+/* On utilise une fonction que valide le formulaire si tout les champs sont validés*/
 function submitForm(e) {
   e.preventDefault();
 
@@ -209,14 +205,14 @@ function submitForm(e) {
   }
 }
 
-//close modal
+//close modal (permet de fermer le formulaire)
 function validateClose(e){
   if (launchModal === null)
     return e.preventDefault;
     modalbg.style.display = "none";
 }
 
-//close message validation
+//close message validation (permet de retourner à la page d'accueil)
 function validateCloseMessage(e) {
   e.preventDefault;
     window.location.href="index.html";
