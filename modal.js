@@ -42,6 +42,7 @@ const inputBirthdateError = document.querySelector("#input-birthdate-error")
 const inputQuantity = document.querySelector("#quantity");
 const inputQuantityError = document.querySelector("#input-quantity-error");
 //choix du tournoi
+const radioInputsList = document.querySelectorAll(".radio-input");
 const inputCityError = document.querySelector("#input-city-error");
 //condition
 const inputCheckbox1= document.querySelector("#checkbox1");
@@ -67,6 +68,8 @@ inputEmail.addEventListener("change", validateEmail);
 inputBirthdate.addEventListener("change", validateBirthdate);
 //nombre de tournoi
 inputQuantity.addEventListener("blur", validateParticipationsNumber);
+//ville
+radioInputsList.forEach((radio) => radio.addEventListener("change", validateCitySelector));
 //condition
 inputCheckbox1.addEventListener("click", validateCheckbox1);
 //close
@@ -85,6 +88,19 @@ function hasOnlyLetters(string) {
 
 function isPositiveNumber(value) {
   return /^[0-9]+$/.test(value);
+}
+
+function isDateFormatValid(value) {
+  return /^(([0-9]{4})-[0-9]{2})-([0-9]{2})+$/.test(value);
+} 
+
+function isOfLegalAge(dateOfBirth) {
+  const todayInMilliseconds = Date.now();
+  const dateOfBirthInMilliseconds = Date.parse(dateOfBirth);
+
+  const age = (todayInMilliseconds - dateOfBirthInMilliseconds) / (365*24*60*60*1000);
+
+  return age >= 18;
 }
 
 //prénom
@@ -123,18 +139,24 @@ function validateEmail() {
     return false;
   }
 }
+
 //date de naissance
 function validateBirthdate() {
-  if (/^(([0-9]{4})-[0-9]{2})-([0-9]{2})+$/.test(inputBirthdate.value))
-     {
-      inputBirthdate.classList.remove("error-input");
-      inputBirthdateError.innerText = "";
-    return true;
-  } else {
-      inputBirthdate.classList.add("error-input");
-      inputBirthdateError.innerText = "La date de naissance n'est pas valide.";
-   
+  if (!isDateFormatValid(inputBirthdate.value)) {
+    inputBirthdate.classList.add("error-input");
+    inputBirthdateError.innerText = "La date de naissance n'est pas valide.";
+ 
     return false;
+  } else if (!isOfLegalAge(inputBirthdate.value)) {
+    inputBirthdate.classList.add("error-input");
+    inputBirthdateError.innerText = "Il faut avoir au moins 18 ans pour participer.";
+ 
+    return false;
+  } else {
+    inputBirthdate.classList.remove("error-input");
+    inputBirthdateError.innerText = "";
+
+    return true;   
   }
 }
 
@@ -153,8 +175,6 @@ function validateParticipationsNumber() {
 
 //choix du tournoi (la fonction valide lorsque un bouton est sélectionner)
 function validateCitySelector() {
-  const radioInputsList = document.querySelectorAll(".radio-input");
-  /* On récupère les DOM de tout les boutons radio*/
   const radioInputsArray = Array.from(radioInputsList);
   /* On tranforme la liste en tableau*/
   const radioInputChecked = radioInputsArray.find((radio) => radio.checked);
