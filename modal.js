@@ -48,8 +48,9 @@ const inputCityError = document.querySelector("#input-city-error");
 const inputCheckbox1= document.querySelector("#checkbox1");
 const inputCheckbox1Error = document.querySelector("#input-checkbox-error");
 //validation
-const submitButton = document.querySelector("#buttonsubmit");
 const inputSubmitError = document.querySelector("#input-submit-error");
+//validation du formulaire (fonction qui valide le formulaire en regardant si toute les fonctions sont valide)
+const form = document.querySelector("#form");
 //message validation
 const submitmessage= document.querySelector("#validate-check");
 //close
@@ -72,13 +73,15 @@ inputQuantity.addEventListener("blur", validateParticipationsNumber);
 radioInputsList.forEach((radio) => radio.addEventListener("change", validateCitySelector));
 //condition
 inputCheckbox1.addEventListener("click", validateCheckbox1);
+/*on récupère le DOM du formulaire)*/
+form.addEventListener("submit", submitForm);
 //close
 submitClose.addEventListener("click", validateClose);
 //close message validation
 submitCloseMessage.addEventListener("click", validateCloseMessage);
 
 
-// launch modal form (on applique des restirictions sur les champs des formulaires)
+// launch modal form (on applique des restrictions sur les champs des formulaires)
 
 //Fonction qui autorise que des lettres ou des chiffres
 function hasOnlyLetters(string) {
@@ -103,7 +106,7 @@ function isOfLegalAge(dateOfBirth) {
   return age >= 18;
 }
 
-//prénom
+//prénom (fonction que demande 2 lettres min et 250 max)
 function validateFirstname() {
   if(inputFirstname.value.length > 1 && inputFirstname.value.length < 250 && hasOnlyLetters(inputFirstname.value)) {
     inputFirstname.classList.remove("error-input");
@@ -115,7 +118,7 @@ function validateFirstname() {
     return false;
   }
 }
-//nom
+//nom (fonction que demande 2 lettres min et 250 max)
 function validateLastname() {
   if(inputLastname.value.length > 1 && inputLastname.value.length < 250 && hasOnlyLetters(inputLastname.value)) {
       inputLastname.classList.remove("error-input");
@@ -127,7 +130,7 @@ function validateLastname() {
     return false;
   }
 }
-//email
+//email (fonction qui demande le format mail avec une regex)
 function validateEmail() {
   if(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(inputEmail.value)) {
       inputEmail.classList.remove("error-input");
@@ -140,7 +143,7 @@ function validateEmail() {
   }
 }
 
-//date de naissance
+//date de naissance (fonction qui demande une date(chiffres uniquement et plus de 18 ans))
 function validateBirthdate() {
   if (!isDateFormatValid(inputBirthdate.value)) {
     inputBirthdate.classList.add("error-input");
@@ -160,7 +163,7 @@ function validateBirthdate() {
   }
 }
 
-//nombre de participation
+//nombre de participation (fonction qui demande une valeur numérique positive)
 function validateParticipationsNumber() {
   if (!isPositiveNumber(inputQuantity.value) || inputQuantity.value.valueOf() > 99) {
     inputQuantity.classList.add("error-input");
@@ -188,7 +191,7 @@ function validateCitySelector() {
   }
 }
 
-//condition d'utilisation
+//condition d'utilisation (fonction qui demanche que la case des conditions générales soit validé)
 function validateCheckbox1() {
   if (inputCheckbox1.checked){
     inputCheckbox1Error.innerText = "";
@@ -199,12 +202,6 @@ function validateCheckbox1() {
   }
 }
 
-
-  
-//validation du formulaire
-const form = document.querySelector("#form");
-/*on récupère le DOM du formulaire)*/
-form.addEventListener("submit", submitForm);
 /* on écoute le formulaire*/
 /* On utilise une fonction que valide le formulaire si tout les champs sont validés*/
 function submitForm(e) {
